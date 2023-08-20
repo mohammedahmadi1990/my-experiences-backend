@@ -10,11 +10,22 @@ function createExperience(data, callback) {
 }
 
 function findExperiencesByRegion(region, callback) {
-    const query = 'SELECT * FROM experiences WHERE region = ?';
-    db.all(query, [region], (err, rows) => {
+    let query;
+    let params;
+
+    if (region) {
+        query = 'SELECT * FROM experiences WHERE region = ?';
+        params = [region];
+    } else {
+        query = 'SELECT * FROM experiences';
+        params = [];
+    }
+
+    db.all(query, params, (err, rows) => {
         callback(err, rows);
     });
 }
+
 
 function bookExperience(id, callback) {
     const query = 'UPDATE experiences SET bookings = bookings + 1 WHERE id = ?';

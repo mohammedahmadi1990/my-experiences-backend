@@ -8,6 +8,12 @@ const experienceRoutes = require('./routes/experiences');
 
 const app = express();
 
+// CORS
+const corsOptions = {
+    origin: 'http://localhost:3001',
+    credentials: true
+  };
+
 // Connect to the SQLite database
 const db = new sqlite3.Database('./database/myExperiences.db', (err) => {
     if (err) {
@@ -21,7 +27,7 @@ app.set('db', db);
 
 // Middlewares
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(session({
     secret: 'mySecretKey',
     resave: false,
